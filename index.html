@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nerds Of A Feather - Authentication</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e6e6e6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: #f05454;
+            font-size: 2.2rem;
+            text-shadow: 0 0 10px rgba(240, 84, 84, 0.5);
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav li {
+            margin-left: 1.5rem;
+        }
+
+        nav a {
+            color: #e6e6e6;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            background-color: #f05454;
+            color: #16213e;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .Hero {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .Hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #f05454;
+        }
+
+        .Hero h3 {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+        }
+
+        .auth-container {
+            display: flex;
+            gap: 2rem;
+            max-width: 900px;
+            width: 100%;
+        }
+
+        .auth-form {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-form h2 {
+            color: #f05454;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 1.8rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            padding: 0.8rem;
+            margin-bottom: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 1rem;
+        }
+
+        input[type="submit"] {
+            background: #f05454;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 0.5rem;
+        }
+
+        input[type="submit"]:hover {
+            background: #d43f3f;
+        }
+
+        .message {
+            padding: 0.8rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        .error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            background-color: rgba(0, 0, 0, 0.7);
+            margin-top: auto;
+        }
+
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+            }
+            
+            header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 1rem;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Nerds Of A Feather</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section class="Hero">
+            <h2>Welcome to Nerds of A Feather</h2>
+            <h3>We Flock Together</h3>
+        </section>
+        
+        <div class="auth-container">
+            <section class="auth-form">
+                <h2>Create Account</h2>
+                <form id="signup-form">
+                    <label for="signup-username">Username:</label>
+                    <input type="text" id="signup-username" placeholder="Choose a username" required>
+                    
+                    <label for="signup-password">New Password:</label>
+                    <input type="password" id="signup-password" placeholder="Create password" required>
+                    
+                    <label for="confirm-password">Confirm Password:</label>
+                    <input type="password" id="confirm-password" placeholder="Re-type password" required>
+                    
+                    <input type="submit" value="Sign Up">
+                </form>
+                <div id="signup-message" class="message"></div>
+            </section>
+            
+            <section class="auth-form">
+                <h2>Login</h2>
+                <form id="login-form">
+                    <label for="login-username">Enter Username:</label>
+                    <input type="text" id="login-username" required>
+                    
+                    <label for="login-password">Enter Password:</label>
+                    <input type="password" id="login-password" required>
+                    
+                    <input type="submit" value="Enter Our Domain">
+                </form>
+                <div id="login-message" class="message"></div>
+            </section>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2023 Nerds Of A Feather. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Client-side validation and form handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const signupForm = document.getElementById('signup-form');
+            const loginForm = document.getElementById('login-form');
+            const signupMessage = document.getElementById('signup-message');
+            const loginMessage = document.getElementById('login-message');
+            
+            // Signup form submission
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('signup-username').value;
+                const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                
+                // Client-side validation
+                if (password !== confirmPassword) {
+                    showMessage(signupMessage, "Passwords do not match!", "error");
+                    return;
+                }
+                
+                if (password.length < 6) {
+                    showMessage(signupMessage, "Password must be at least 6 characters long!", "error");
+                    return;
+                }
+                
+                // Simulate API call to backend
+                simulateSignup(username, password);
+            });
+            
+            // Login form submission
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('login-username').value;
+                const password = document.getElementById('login-password').value;
+                
+                // Simulate API call to backend
+                simulateLogin(username, password);
+            });
+            
+            // Function to show messages
+            function showMessage(element, text, type) {
+                element.textContent = text;
+                element.className = `message ${type}`;
+                element.style.display = 'block';
+                
+                // Hide message after 5 seconds
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 5000);
+            }
+            
+            // Simulate signup API call
+            function simulateSignup(username, password) {
+                // In a real application, this would be a fetch() call to your backend
+                showMessage(signupMessage, "Creating account...", "success");
+                
+                // Simulate API delay
+                setTimeout(() => {
+                    // Check if user already exists in localStorage (simulating database check)
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    
+                    if (users[username]) {
+                        showMessage(signupMessage, "Username already exists!", "error");
+                    } else {
+                        // Hash password (in a real app, this would be done on the server)
+                        users[username] = btoa(password); // Simple base64 encoding (not secure for production)
+                        localStorage.setItem('users', JSON.stringify(users));
+                        
+                        showMessage(signupMessage, "Account created successfully! You can now login.", "success");
+                        signupForm.reset();
+                    }
+                }, 1000);
+            }
+            
+            // Simulate login API call
+            function simulateLogin(username, password) {
+                // In a real application, this would be a fetch() call to your backend
+                showMessage(loginMessage, "Logging in...", "success");
+                
+                // Simulate API delay
+                setTimeout(() => {
+                    // Check if user exists and password matches
+                    const users = JSON.parse(localStorage.getItem('users') || '{}');
+                    
+                    if (users[username] && users[username] === btoa(password)) {
+                        showMessage(loginMessage, "Login successful! Redirecting...", "success");
+                        
+                        // Store logged in user info
+                        localStorage.setItem('currentUser', username);
+                        
+                        // Redirect to dashboard after a delay
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1500);
+                    } else {
+                        showMessage(loginMessage, "Invalid username or password!", "error");
+                    }
+                }, 1000);
+            }
+        });
+    </script>
+</body>
+</html>
