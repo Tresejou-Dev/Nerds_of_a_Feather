@@ -5,8 +5,8 @@
         const signupMessage = document.getElementById('signup-message');
         const loginMessage = document.getElementById('login-message');
         
-        // API base URL - adjust according to your XAMPP setup
-        const API_BASE = 'http://localhost/nerds-feather/api';
+        // API base URL for Replit environment
+        const API_BASE = 'https://b22fc393-9892-4774-9729-c11fae395f62-00-26ymd5g7z3a7f.worf.replit.dev/API';
         
         // Signup form submission
         signupForm.addEventListener('submit', async function(e) {
