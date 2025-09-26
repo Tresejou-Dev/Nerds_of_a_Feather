@@ -4,8 +4,8 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-include_once '../config/database.php';
-include_once '../models/User.php';
+include_once __DIR__ . '/../Config/database.php';
+include_once __DIR__ . '/../Models/User.php';
 
 $database = new Database();
 $db = $database->getConnection();

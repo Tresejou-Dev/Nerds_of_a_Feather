@@ -15,7 +15,7 @@ class User {
 
     public function create() {
         $query = "INSERT INTO " . $this->table_name . " 
-                SET username=:username, password_hash=:password_hash, email=:email";
+                (username, password_hash, email) VALUES (:username, :password_hash, :email)";
         
         $stmt = $this->conn->prepare($query);
         
@@ -29,27 +29,26 @@ class User {
         $stmt->bindParam(":email", $this->email);
         
         if($stmt->execute()) {
+            $this->id = $this->conn->lastInsertId();
             return true;
         }
         return false;
     }
 
     public function usernameExists() {
-        $query = "SELECT id, username, password_hash 
-                FROM " . $this->table_name . " 
-                WHERE username = ? 
-                LIMIT 0,1";
-        
+        // Use a different approach - fetch all users and compare manually
+        $query = "SELECT id, username, password_hash FROM " . $this->table_name;
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->username);
         $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        if($stmt->rowCount() > 0) {
-            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-            $this->id = $row['id'];
-            $this->username = $row['username'];
-            $this->password_hash = $row['password_hash'];
-            return true;
+        foreach ($users as $user) {
+            if (trim($user['username']) === trim($this->username)) {
+                $this->id = $user['id'];
+                $this->username = $user['username'];
+                $this->password_hash = $user['password_hash'];
+                return true;
+            }
         }
         return false;
     }
